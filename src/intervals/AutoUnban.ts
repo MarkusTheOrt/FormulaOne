@@ -7,6 +7,7 @@ import { handleError } from "../utility/Logger.js";
 import { modLog } from "../services/ModerationService.js";
 import { getUserTag } from "../utility/StringUtil.js";
 import TryVal from "../utility/TryVal.js";
+import Try from "../utility/Try.js";
 
 setInterval(() => {
   (async function run() {
@@ -23,7 +24,8 @@ setInterval(() => {
             container.client.users.fetch(ban.userId as Snowflake),
           );
           if (targetUser != null) {
-            await guild.members.unban(targetUser, "Automatic Unban");
+            // Only filter out 10026 - "Unknown Ban"
+            await Try(guild.members.unban(targetUser, "Automatic Unban"), "10026");
             await db.banRepo?.deleteById(ban._id as ObjectId);
             await modLog(
               guild,
