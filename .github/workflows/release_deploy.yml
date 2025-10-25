@@ -12,12 +12,6 @@ on:
       - "Dockerfile"
       - ".github/workflows/release_deploy.yml"
   workflow_dispatch:
-    inputs:
-      manual:
-        description: "Allow manually controlled runs"
-        type: boolean
-        required: false
-        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
