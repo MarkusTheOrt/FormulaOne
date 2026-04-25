@@ -2,7 +2,7 @@ import { GuildTextBasedChannel, Message } from "discord.js";
 import { Constants } from "../utility/Constants.js";
 import { ban } from "../utility/BanUtil.js";
 
-export async function checkHoneypot(message: Message) {
+export async function honeypotCheck(message: Message) {
   if (message.channelId !== Constants.CHANNELS.HONEYPOT) {
     return;
   }
@@ -15,10 +15,15 @@ export async function checkHoneypot(message: Message) {
     return;
   }
 
+  const botMember =
+    message.guild.members.me !== null
+      ? message.guild.members.me
+      : await message.guild.members.fetchMe();
+
   await ban(
     message.guild,
     message.author,
-    message.member, // @TODO: Markus Need to make this the bot itself.
+    botMember,
     "Posted in the Honeypot Channel.",
     message.channel as GuildTextBasedChannel,
   );
