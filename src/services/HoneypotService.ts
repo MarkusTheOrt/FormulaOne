@@ -26,5 +26,7 @@ export async function honeypotCheck(message: Message) {
     botMember,
     "Posted in the Honeypot Channel.",
     message.channel as GuildTextBasedChannel,
+    undefined,
+    3600,
   );
 }
